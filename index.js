@@ -9,12 +9,13 @@ import { PORT } from './config/setup';
 
 var port = process.env.PORT || PORT;
 app.set('port', port);
+app.set('view engine', 'ejs');
 
 /**
  * Create HTTP server.
  */
 
-let server = http.createServer(app);
+// let server = http.createServer(app);
 
 
 /**
@@ -23,7 +24,7 @@ let server = http.createServer(app);
 
 let nextVisitorNumber = 1;
 const onlineClients = new Set();
-var io = require("socket.io")(server);
+var io = require("socket.io")(app);
 io.on("connection", onNewWebsocketConnection);
 
 function onNewWebsocketConnection(socket) {
@@ -51,9 +52,9 @@ function onNewWebsocketConnection(socket) {
  * Listen on provided port, on all network interfaces.
  */
 
-server.listen(port);
-server.on('error', onError);
-server.on('listening', onListening);
+app.listen(port);
+// server.on('error', onError);
+// server.on('listening', onListening);
 
 /**
  * Event listener for HTTP server "error" event.
