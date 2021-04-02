@@ -1,14 +1,18 @@
 const express = require('express');
 const socketIO = require('socket.io');
 const app = express();
+const server = require('http').Server(app);
 
-var port = process.env.PORT || 8080;
+var port = process.env.PORT || 3000;
 
 app.set('view engine', 'ejs');
 app.get('/', function (req, res) {
   res.render('index');
 });
 
+app.listen(port, function () {
+  console.log('Our app is running on http://localhost:' + port);
+});
 
 
 /**
@@ -17,7 +21,8 @@ app.get('/', function (req, res) {
 
 let nextVisitorNumber = 1;
 const onlineClients = new Set();
-var io = socketIO(app);
+const io = socketIO(server);
+
 io.on("connection", onNewWebsocketConnection);
 
 function onNewWebsocketConnection(socket) {
@@ -48,7 +53,3 @@ setInterval(() => {
   io.emit("online", onlineClients.size);
 }, 1000);
 
-
-app.listen(port, function () {
-  console.log('Our app is running on http://localhost:' + port);
-});
