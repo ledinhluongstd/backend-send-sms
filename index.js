@@ -1,4 +1,6 @@
 var express = require('express');
+var http = require('http');
+var https = require('https');
 var app = express();
 
 // set the port of our application
@@ -23,10 +25,11 @@ app.get('/', function (req, res) {
 /**
  *  SOCKET.IO
  */
+let server = https.createServer(app);
 
 let nextVisitorNumber = 1;
 const onlineClients = new Set();
-var io = require("socket.io")(app);
+var io = require("socket.io")(server);
 io.on("connection", onNewWebsocketConnection);
 
 function onNewWebsocketConnection(socket) {
@@ -58,6 +61,6 @@ setInterval(() => {
 }, 1000);
 
 
-app.listen(port, function () {
+server.listen(port, function () {
   console.log('Our app is running on http://localhost:' + port);
 });
