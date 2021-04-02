@@ -1,21 +1,21 @@
 
 const socket = io();
 
-// async function ajax(url) {
-//   return new Promise((resolve, reject) => {
-//     const request = new XMLHttpRequest();
-//     request.addEventListener("load", function () {
-//       try {
-//         resolve(this.responseText);
-//       } catch (error) {
-//         reject(error);
-//       }
-//     });
-//     request.open("GET", url);
-//     request.send();
-//     request.addEventListener("error", reject)
-//   });
-// }
+async function ajax(url) {
+  return new Promise((resolve, reject) => {
+    const request = new XMLHttpRequest();
+    request.addEventListener("load", function () {
+      try {
+        resolve(this.responseText);
+      } catch (error) {
+        reject(error);
+      }
+    });
+    request.open("GET", url);
+    request.send();
+    request.addEventListener("error", reject)
+  });
+}
 
 /** @returns {void} */
 async function main() {
